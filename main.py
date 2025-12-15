@@ -132,6 +132,10 @@ results = {}
 kmeans = KMeans(n_clusters = 3, random_state = 64, n_init='auto')
 kmeans_labels = kmeans.fit_predict(pca_data)
 
+plot_clusters(pca_data, kmeans_labels, 'pca + k-means clustering', ['pc1', 'pc2'])
+sil_pca_km, ch_pca_km = evaluate_clustering(pca_data, kmeans_labels, 'pca + k-means')
+results['pca + k-means'] = {'silhouette': sil_pca_km, 'calinski_harabasz': ch_pca_km}
+
 # ##TSNE + Kmeans
 
 
@@ -322,6 +326,3 @@ plt.tight_layout()
 plt.show()
 
 print("analysis complete!")
-plot_clusters(pca_data, kmeans_labels, 'pca + k-means clustering', ['pc1', 'pc2'])
-sil_pca_km, ch_pca_km = evaluate_clustering(pca_data, kmeans_labels, 'pca + k-means')
-results['pca + k-means'] = {'silhouette': sil_pca_km, 'calinski_harabasz': ch_pca_km}
