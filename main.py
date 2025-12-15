@@ -64,3 +64,50 @@ sns.heatmap(df_scaled.corr(), annot=True, cmap='coolwarm', center=0)
 plt.title("correlation matrix of scaled features")
 plt.tight_layout()
 plt.show()
+
+# #Functions Definition
+
+
+def evaluate_clustering(data, labels, method_name):
+    if len(set(labels)) <= 1:
+        return None, None
+
+    sil_score = silhouette_score(data, labels)
+    ch_score = calinski_harabasz_score(data, labels)
+
+    print(f"{method_name}:")
+    print(f" silhouette score: {sil_score:.3f}")
+    print(f" calinski-harabasz score: {ch_score:.3f}")
+
+    return sil_score, ch_score
+
+def plot_clusters(data, labels, title, dim_names=['dim1', 'dim2']):
+    plt.figure(figsize=(8, 6))
+    df_plot = pd.DataFrame(data, columns=dim_names)
+    df_plot['cluster'] = labels
+
+    sns.scatterplot(data=df_plot, x=dim_names[0], y=dim_names[1], hue='cluster', palette='Set1', s=60, alpha=0.4)
+    plt.title(title)
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+
+#find optimal k using elbow method
+def find_optimal_k(data, max_k=10):
+    inertias = []
+    k_range = range(1, max_k + 1)
+
+    for k in k_range:
+        kmeans = KMeans(n_clusters=k, random_state=64, n_init='auto')
+        kmeans.fit(data)
+        inertias.append(kmeans.inertia_)
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(k_range, inertias, 'bo-', linewidth=2, markersize=8)
+    plt.title('elbow method for optimal k')
+    plt.xlabel('number of clusters (k)')
+    plt.ylabel('inertia')
+    plt.grid(True, alpha=0.3)
+    plt.show()
+
+    return k_range, inertias
