@@ -5,8 +5,6 @@
 
 Retail environments generate large volumes of customer data, yet often lack explicit labels that define customer categories. Traditional rule-based segmentation fails to capture complex, non-linear relationships between customer attributes. This project addresses the challenge of discovering natural customer segments using unsupervised learning, enabling retailers to better understand customer behavior and optimize marketing and resource allocation strategies.
 
----
-
 ## Dataset Description
 
 * **Dataset Name**: Mall Customers Dataset
