@@ -111,3 +111,27 @@ def find_optimal_k(data, max_k=10):
     plt.show()
 
     return k_range, inertias
+
+# #Model Building
+
+
+# ##PCA + Kmeans
+
+
+#pca + k-means
+print("pca + k-means clustering")
+pca = PCA(n_components = 2, random_state = 64)
+pca_data = pca.fit_transform(df_scaled)
+
+#find optimal k
+find_optimal_k(pca_data)
+
+results = {}
+
+#apply k-means with k=3 (from elbow method)
+kmeans = KMeans(n_clusters = 3, random_state = 64, n_init='auto')
+kmeans_labels = kmeans.fit_predict(pca_data)
+
+plot_clusters(pca_data, kmeans_labels, 'pca + k-means clustering', ['pc1', 'pc2'])
+sil_pca_km, ch_pca_km = evaluate_clustering(pca_data, kmeans_labels, 'pca + k-means')
+results['pca + k-means'] = {'silhouette': sil_pca_km, 'calinski_harabasz': ch_pca_km}
